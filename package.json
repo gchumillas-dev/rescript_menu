@@ -23,7 +23,7 @@
     "eject": "react-scripts eject",
     "postinstall": "bsb -make-world",
     "start:re": "bsb -make-world -w",
-    "start:cra": "react-scripts start",
+    "start:cra": "BROWSER=none react-scripts start",
     "prebuild": "bsb -clean-world -make-world"
   },
   "eslintConfig": null,
