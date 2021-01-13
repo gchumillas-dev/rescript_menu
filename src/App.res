@@ -39,7 +39,7 @@ let make = () => {
   // WTF: Container.MaxWidth.sm ??
   <Container maxWidth=Container.MaxWidth.sm>
     <Paper>
-      <Tree items={items} />
+      <Tree items={items} selectedItemId="2" />
     </Paper>
   </Container>
 }
