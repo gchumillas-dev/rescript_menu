@@ -35,12 +35,15 @@ module rec TreeItem: {
 } = {
   @react.component
   let make = (~item: item) => {
+    // WTF: () => false ?? why not simply `false` ?
+    let (isOpen, setOpen) = useState(() => false)
+
     <>
       // WTF: button=true ??
-      <ListItem button=true>
+      <ListItem button=true onClick={_ => setOpen(value => !value)}>
         {item.name->string}
       </ListItem>
-      <Collapse>
+      <Collapse _in=isOpen>
         <TreeList items=item.items />
       </Collapse>
     </>
