@@ -8,24 +8,22 @@ type rec item = {
   items: array<item>,
 }
 
-module Context = {
-  let ctx: Context.t<{
-    "selectedItemId": option<string>,
-    "isItemOpen": item => bool,
-    "onSelectItem": item => unit,
-  }> = createContext({
-    "selectedItemId": None,
-    "isItemOpen": _ => false,
-    "onSelectItem": _ => (),
-  })
+let context: Context.t<{
+  "selectedItemId": option<string>,
+  "isItemOpen": item => bool,
+  "onSelectItem": item => unit,
+}> = createContext({
+  "selectedItemId": None,
+  "isItemOpen": _ => false,
+  "onSelectItem": _ => (),
+})
 
-  module Provider = {
-    let provider = Context.provider(ctx)
+module ContextProvider = {
+  let provider = Context.provider(context)
 
-    @react.component
-    let make = (~value, ~children) => {
-      createElement(provider, {"value": value, "children": children})
-    }
+  @react.component
+  let make = (~value, ~children) => {
+    createElement(provider, {"value": value, "children": children})
   }
 }
 
@@ -66,12 +64,12 @@ let make = (~items: array<item>) => {
   let isItemOpen = _ => false
   let onSelectItem = _ => ()
 
-  <Context.Provider
+  <ContextProvider
     value={
       "selectedItemId": None,
       "isItemOpen": isItemOpen,
       "onSelectItem": onSelectItem,
     }>
     <TreeList items={items} />
-  </Context.Provider>
+  </ContextProvider>
 }
