@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@glennsl/bs-jest": "^0.6.0",
+    "@jsiebern/bs-material-ui": "^2.0.2",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^12.2.2",
