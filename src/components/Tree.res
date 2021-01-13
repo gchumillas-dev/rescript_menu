@@ -42,13 +42,15 @@ module rec TreeItem: {
         {item.name->string}
       </ListItem>
       // TODO: is there a more concise way to express this?
-      {item.items->length > 0
-        ? (
-            <Collapse _in=isOpen>
-              <TreeList items=item.items />
-            </Collapse>
-          )
-        : null}
+      {
+        item.items->length > 0
+          ? (
+              <Collapse _in=isOpen>
+                <TreeList items=item.items />
+              </Collapse>
+            )
+          : null
+      }
     </>
   }
 }
