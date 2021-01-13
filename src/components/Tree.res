@@ -27,14 +27,16 @@ module Context = {
   }
 }
 
-// Defines a recursive module.
 module rec Item: {
   @react.component
   let make: (~item: item) => React.element
 } = {
   @react.component
   let make = (~item: item) => {
-    <> <li id=item.id> {React.string(item.name)} </li> <List items=item.items /> </>
+    <>
+      <li id=item.id>{React.string(item.name)}</li>
+      <List items=item.items />
+    </>
   }
 }
 and List: {
