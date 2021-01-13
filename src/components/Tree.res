@@ -41,9 +41,14 @@ module rec TreeItem: {
       <ListItem button=true onClick={_ => setOpen(value => !value)}>
         {item.name->string}
       </ListItem>
-      <Collapse _in=isOpen>
-        <TreeList items=item.items />
-      </Collapse>
+      // TODO: is there a more concise way to express this?
+      {item.items->length > 0
+        ? (
+            <Collapse _in=isOpen>
+              <TreeList items=item.items />
+            </Collapse>
+          )
+        : null}
     </>
   }
 }
