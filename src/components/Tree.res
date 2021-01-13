@@ -1,4 +1,5 @@
 open React
+open MaterialUi
 open Belt.Array
 
 type rec item = {
@@ -28,25 +29,32 @@ module Context = {
   }
 }
 
-module rec Item: {
+module rec TreeItem: {
   @react.component
   let make: (~item: item) => element
 } = {
   @react.component
   let make = (~item: item) => {
     <>
-      <li id=item.id>{item.name->string}</li>
-      <List items=item.items />
+      // WTF: button=true ??
+      <ListItem button=true>
+        {item.name->string}
+      </ListItem>
+      <Collapse>
+        <TreeList items=item.items />
+      </Collapse>
     </>
   }
 }
-and List: {
+and TreeList: {
   @react.component
   let make: (~items: array<item>) => element
 } = {
   @react.component
   let make = (~items: array<item>) => {
-    <ul> {items->map(item => <Item item />)->array} </ul>
+    <List>
+      {items->map(item => <TreeItem key=item.id item />)->array}
+    </List>
   }
 }
 
@@ -61,6 +69,6 @@ let make = (~items: array<item>) => {
       "isItemOpen": isItemOpen,
       "onSelectItem": onSelectItem,
     }>
-    <List items={items} />
+    <TreeList items={items} />
   </Context.Provider>
 }

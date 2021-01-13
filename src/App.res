@@ -1,3 +1,5 @@
+open MaterialUi
+
 %%raw(`import './App.css';`)
 
 @bs.module("./logo.svg") external logo: string = "default"
@@ -34,7 +36,10 @@ let make = () => {
     items: []
   }]
 
-  <div className="App">
-    <Tree items={items} />
-  </div>
+  // WTF: Container.MaxWidth.sm ??
+  <Container maxWidth=Container.MaxWidth.sm>
+    <Paper>
+      <Tree items={items} />
+    </Paper>
+  </Container>
 }
