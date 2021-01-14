@@ -2,8 +2,6 @@ open MaterialUi
 
 %%raw(`import './App.css';`)
 
-@bs.module("./logo.svg") external logo: string = "default"
-
 @react.component
 let make = () => {
   let items: array<Tree.item> = [{
@@ -39,7 +37,6 @@ let make = () => {
   let (selectedItemId, setSelectedItemId) = React.useState(() => "2")
   let onSelectItem = (item: Tree.item) => setSelectedItemId(_ => item.id)
 
-  // WTF: Container.MaxWidth.sm ??
   <Container maxWidth=Container.MaxWidth.sm>
     <Paper>
       <Tree items={items} selectedItemId=selectedItemId onSelectItem=onSelectItem />

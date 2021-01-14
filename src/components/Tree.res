@@ -100,7 +100,7 @@ and TreeList: {
 @react.component
 let make = (
   ~items: array<item>,
-  ~selectedItemId: option<string>=?,
+  ~selectedItemId: option<string> = ?,
   ~onSelectItem: item => unit
 ) => {
   open Belt
