@@ -109,12 +109,7 @@ let make = (
     selectedItemId == Some(item.id) || item.items->Array.some(x => isItemOpen(x))
   }
 
-  <ContextProvider
-    value={
-      selectedItemId: selectedItemId,
-      isItemOpen: isItemOpen,
-      onSelectItem: onSelectItem,
-    }>
+  <ContextProvider value={ selectedItemId, isItemOpen, onSelectItem }>
     <TreeList items=items level=1 />
   </ContextProvider>
 }
