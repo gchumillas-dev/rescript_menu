@@ -1,6 +1,5 @@
 open React
 open MaterialUi
-open Belt.Array
 
 type rec item = {
   id: string,
@@ -33,29 +32,24 @@ module rec TreeItem: {
   @react.component
   let make: (~item: item) => element
 } = {
+  open Belt.Option
+
   @react.component
   let make = (~item: item) => {
     // WTF: () => false ?? why not simply `false` ?
     let (isOpen, setOpen) = useState(() => false)
     let {isItemOpen, selectedItemId} = useContext(context)
 
-    React.useEffect1(() => {
+    useEffect1(() => {
       setOpen(_ => isItemOpen(item))
       None
-    }, [
-      item.id,
-      // TODO: is there a more concise way to express this?
-      switch selectedItemId {
-      | Some(id) => id
-      | None => ""
-      },
-    ])
+    }, [item.id, selectedItemId->getWithDefault("")])
 
     <>
       // WTF: button=true ??
       <ListItem button=true onClick={_ => setOpen(value => !value)}> {item.name->string} </ListItem>
       // TODO: is there a more concise way to express this?
-      {item.items->length > 0
+      {item.items->Array.length > 0
         ? <Collapse _in=isOpen> <TreeList items=item.items /> </Collapse>
         : null}
     </>
@@ -65,6 +59,8 @@ and TreeList: {
   @react.component
   let make: (~items: array<item>) => element
 } = {
+  open Belt.Array
+
   @react.component
   let make = (~items: array<item>) => {
     <List> {items->map(item => <TreeItem key=item.id item />)->array} </List>
@@ -73,6 +69,8 @@ and TreeList: {
 
 @react.component
 let make = (~items: array<item>, ~selectedItemId: option<string>=?) => {
+  open Belt.Array
+
   let rec isItemOpen = item => {
     selectedItemId == Some(item.id) || item.items->some(x => isItemOpen(x))
   }
