@@ -21,3 +21,4 @@ yarn start
 3. [Material UI](https://material-ui.com/): a React library to build user interfaces.
 4. [BS Material UI](https://jsiebern.github.io/bs-material-ui/): Material UI in Rescript.
 5. [Rescript](https://rescript-lang.org/): a new programming language.
+6. [cra-template-rescript](https://github.com/reason-seoul/cra-template-rescript): Create React App for Rescript.
