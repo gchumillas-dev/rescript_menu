@@ -32,7 +32,6 @@ module rec TreeItem: {
   @react.component
   let make: (~item: item, ~level: int) => element
 } = {
-  // NOTE: something like `open Belt.{Option, Int}` ?
   open Belt
 
   // NOTE: it'd be nice to use `React.useTheme` and replace the next line with `theme.spacing(2)`
@@ -40,10 +39,10 @@ module rec TreeItem: {
 
   @react.component
   let make = (~item, ~level) => {
-    // WTF: () => false ?? why not simply `false` ?
+    // NOTE: it'd be nice to write `useState(false)`
     let (isOpen, setOpen) = useState(() => false)
     let {isItemOpen, selectedItemId} = useContext(context)
-    // WTF: it'd be nice to accept numerical values
+    // NOTE: it'd be nice to accept numerical values
     let style = ReactDOM.Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
 
     useEffect1(() => {
@@ -52,14 +51,14 @@ module rec TreeItem: {
     }, [item.id, selectedItemId->Option.getWithDefault("")])
 
     <>
-      // WTF: button=true ??
+      // NOTE: it's be nice to simply write `button` (omit `true`)
       <ListItem
         button=true
         style=style
         onClick={_ => setOpen(value => !value)}>
         {item.name->string}
       </ListItem>
-      // TODO: is there a more concise way to express this?
+      // NOTE: it'd be nice to shorcut this expression (something like {cond && <Component />})
       {item.items->Array.length > 0
         ? <Collapse _in=isOpen> <TreeList items=item.items level={level + 1} /> </Collapse>
         : null}
