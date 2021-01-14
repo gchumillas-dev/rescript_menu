@@ -43,7 +43,7 @@ module rec TreeItem: {
     let (isOpen, setOpen) = React.useState(() => false)
     let {isItemOpen, selectedItemId} = React.useContext(context)
     // TODO: replace length by empty?
-    let icon = switch item.items->Belt.Array.length {
+    let icon = switch item.items->Array.length {
     | len when len > 0 => isOpen ? <OpenFolderIcon /> : <FolderIcon />
     | _ => <FileIcon />
     }
@@ -75,20 +75,20 @@ and TreeList: {
   @react.component
   let make: (~items: array<item>, ~level: int) => React.element
 } = {
-  open Belt.Array
+  open Belt
 
   @react.component
   let make = (~items, ~level) => {
-    <Mui.List> {items->map(item => <TreeItem key=item.id item level=level />)->React.array} </Mui.List>
+    <Mui.List> {items->Array.map(item => <TreeItem key=item.id item level=level />)->React.array} </Mui.List>
   }
 }
 
 @react.component
 let make = (~items: array<item>, ~selectedItemId: option<string>=?) => {
-  open Belt.Array
+  open Belt
 
   let rec isItemOpen = item => {
-    selectedItemId == Some(item.id) || item.items->some(x => isItemOpen(x))
+    selectedItemId == Some(item.id) || item.items->Array.some(x => isItemOpen(x))
   }
   let onSelectItem = _ => ()
 
