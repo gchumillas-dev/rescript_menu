@@ -29,39 +29,6 @@ module ContextProvider = {
   }
 }
 
-module FolderIcon = {
-  @react.component @bs.module("@material-ui/icons/Folder")
-  external make: (~color: string=?, ~className: string=?, ~fontSize: string=?,) => React.element = "default"
-}
-
-module OpenFolderIcon = {
-  @react.component
-  let make = () => {
-    open ReactDOM
-
-    <svg style=Style.make(~width="24px", ~height="24px", ()) viewBox="0 0 24 24">
-      <path
-        fill="currentColor"
-        d="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z"
-      />
-    </svg>
-  }
-}
-
-module FileIcon = {
-  @react.component
-  let make = () => {
-    open ReactDOM
-
-    <svg style=Style.make(~width="24px", ~height="24px", ()) viewBox="0 0 24 24">
-      <path
-        fill="currentColor"
-        d="M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6Z"
-      />
-    </svg>
-  }
-}
-
 module rec TreeItem: {
   @react.component
   let make: (~item: item, ~level: int) => element
