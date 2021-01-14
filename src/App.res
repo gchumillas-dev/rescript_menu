@@ -41,7 +41,7 @@ let make = () => {
     <Mui.CssBaseline />
     <Mui.Container maxWidth=Mui.Container.MaxWidth.sm>
       <Mui.Paper>
-        <Tree items={items} selectedItemId=selectedItemId onSelectItem=onSelectItem />
+        <Tree items selectedItemId onSelectItem />
       </Mui.Paper>
     </Mui.Container>
   </>

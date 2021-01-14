@@ -92,7 +92,7 @@ and TreeList: {
   @react.component
   let make = (~items, ~level) => {
     <Mui.List>
-      {items->Array.map(item => <TreeItem key=item.id item level=level />)->React.array}
+      {items->Array.map(item => <TreeItem key=item.id item level />)->React.array}
     </Mui.List>
   }
 }
@@ -110,6 +110,6 @@ let make = (
   }
 
   <ContextProvider value={ selectedItemId, isItemOpen, onSelectItem }>
-    <TreeList items=items level=1 />
+    <TreeList items level=1 />
   </ContextProvider>
 }
