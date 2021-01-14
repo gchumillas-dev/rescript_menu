@@ -44,6 +44,7 @@ module OpenFolderIcon = {
 }
 
 module FolderIcon = {
+  // More info: https://jsiebern.github.io/bs-material-ui/docs/project-structure/icons
   @react.component @bs.module("@material-ui/icons/Folder")
   external make: (~color: string=?, ~className: string=?, ~fontSize: string=?,) => React.element = "default"
 }
