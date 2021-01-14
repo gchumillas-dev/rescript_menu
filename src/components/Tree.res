@@ -32,16 +32,19 @@ module rec TreeItem: {
   @react.component
   let make: (~item: item, ~level: int) => element
 } = {
-  // TODO: something like `open Belt.{Option, Int}` ?
+  // NOTE: something like `open Belt.{Option, Int}` ?
   open Belt
+
+  // NOTE: it'd be nice to use `React.useTheme` and replace the next line with `theme.spacing(2)`
+  let paddingLeft = 16
 
   @react.component
   let make = (~item, ~level) => {
     // WTF: () => false ?? why not simply `false` ?
     let (isOpen, setOpen) = useState(() => false)
     let {isItemOpen, selectedItemId} = useContext(context)
-    // ISSUE: it'd be nice to accept numerical values
-    let style = ReactDOM.Style.make(~paddingLeft=`${(8 * level)->Int.toString}px`, ())
+    // WTF: it'd be nice to accept numerical values
+    let style = ReactDOM.Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
 
     useEffect1(() => {
       setOpen(_ => isItemOpen(item))
