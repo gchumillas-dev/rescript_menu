@@ -41,7 +41,7 @@ module rec TreeItem: {
   let make = (~item, ~level) => {
     // NOTE: (react) it'd be nice to write `useState(false)`
     let (isOpen, setOpen) = React.useState(() => false)
-    let {isItemOpen, selectedItemId} = React.useContext(context)
+    let {isItemOpen, selectedItemId, onSelectItem} = React.useContext(context)
     // TODO: is there an `empty` function? Maybe `Array.length` is poor in performance.
     let hasChildren = item.items->Array.length > 0
     let icon = if hasChildren {
@@ -62,7 +62,7 @@ module rec TreeItem: {
         button=true
         // NOTE: (react) it'd be nice to accept numerical values
         style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
-        onClick={_ => setOpen(value => !value)}>
+        onClick={_ => onSelectItem(item)}>
         <Mui.ListItemIcon>icon</Mui.ListItemIcon>
         <Mui.ListItemText>{item.name->React.string}</Mui.ListItemText>
         {hasChildren
@@ -98,13 +98,16 @@ and TreeList: {
 }
 
 @react.component
-let make = (~items: array<item>, ~selectedItemId: option<string>=?) => {
+let make = (
+  ~items: array<item>,
+  ~selectedItemId: option<string>=?,
+  ~onSelectItem: item => unit
+) => {
   open Belt
 
   let rec isItemOpen = item => {
     selectedItemId == Some(item.id) || item.items->Array.some(x => isItemOpen(x))
   }
-  let onSelectItem = _ => ()
 
   <ContextProvider
     value={

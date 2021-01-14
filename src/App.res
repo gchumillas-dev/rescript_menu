@@ -36,10 +36,13 @@ let make = () => {
     items: []
   }]
 
+  let (selectedItemId, setSelectedItemId) = React.useState(() => "2")
+  let onSelectItem = (item: Tree.item) => setSelectedItemId(_ => item.id)
+
   // WTF: Container.MaxWidth.sm ??
   <Container maxWidth=Container.MaxWidth.sm>
     <Paper>
-      <Tree items={items} selectedItemId="2" />
+      <Tree items={items} selectedItemId=selectedItemId onSelectItem=onSelectItem />
     </Paper>
   </Container>
 }
