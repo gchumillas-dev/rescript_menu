@@ -58,7 +58,7 @@ module rec TreeItem: {
     <>
       <Mui.ListItem
         selected={Some(item.id) == selectedItemId}
-        // NOTE: (react) it's be nice to simply write `button` (omit `true`)
+        // NOTE: (react) it'd be nice to simply write `button` (omit `true`)
         button=true
         // NOTE: (react) it'd be nice to accept numerical values
         style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
