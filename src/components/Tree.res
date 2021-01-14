@@ -29,6 +29,25 @@ module ContextProvider = {
   }
 }
 
+module OpenFolderIcon = {
+  @react.component
+  let make = () => {
+    open ReactDOM
+
+    <svg style=Style.make(~width="24px", ~height="24px", ()) viewBox="0 0 24 24">
+      <path
+        fill="currentColor"
+        d="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z"
+      />
+    </svg>
+  }
+}
+
+module FolderIcon = {
+  @react.component @bs.module("@material-ui/icons/Folder")
+  external make: (~color: string=?, ~className: string=?, ~fontSize: string=?,) => React.element = "default"
+}
+
 module rec TreeItem: {
   @react.component
   let make: (~item: item, ~level: int) => element
@@ -58,6 +77,9 @@ module rec TreeItem: {
         // NOTE: (react) it'd be nice to accept numerical values
         style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
         onClick={_ => setOpen(value => !value)}>
+        <ListItemIcon>
+          {isOpen ? <OpenFolderIcon /> : <FolderIcon />}
+        </ListItemIcon>
         {item.name->string}
       </ListItem>
       // NOTE: (react?) it'd be nice to shorcut this expression (something like {cond && <Comp />})
