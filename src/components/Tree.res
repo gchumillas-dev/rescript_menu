@@ -42,10 +42,12 @@ module rec TreeItem: {
     // NOTE: (react) it'd be nice to write `useState(false)`
     let (isOpen, setOpen) = React.useState(() => false)
     let {isItemOpen, selectedItemId} = React.useContext(context)
-    // TODO: replace length by empty?
-    let icon = switch item.items->Array.length {
-    | len when len > 0 => isOpen ? <OpenFolderIcon /> : <FolderIcon />
-    | _ => <FileIcon />
+    // TODO: is there an `empty` function? Maybe `Array.length` is poor in performance.
+    let hasChildren = item.items->Array.length > 0
+    let icon = if hasChildren {
+      isOpen ? <OpenFolderIcon /> : <FolderIcon />
+    } else {
+      <FileIcon />
     }
 
     React.useEffect1(() => {
@@ -62,10 +64,10 @@ module rec TreeItem: {
         style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
         onClick={_ => setOpen(value => !value)}>
         <Mui.ListItemIcon>icon</Mui.ListItemIcon>
-        {item.name->React.string}
+        <Mui.ListItemText>{item.name->React.string}</Mui.ListItemText>
       </Mui.ListItem>
       // NOTE: (react?) it'd be nice to shorcut this expression (something like {cond && <Comp />})
-      {item.items->Array.length > 0
+      {hasChildren
         ? <Mui.Collapse _in=isOpen> <TreeList items=item.items level={level + 1} /> </Mui.Collapse>
         : React.null}
     </>
