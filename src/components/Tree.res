@@ -1,4 +1,5 @@
 open React
+// TODO: how can I rename a library? For example `MaterialUi` to `Mui`
 open MaterialUi
 
 type rec item = {
@@ -33,17 +34,16 @@ module rec TreeItem: {
   let make: (~item: item, ~level: int) => element
 } = {
   open Belt
+  open ReactDOM
 
-  // NOTE: it'd be nice to use `React.useTheme` and replace the next line with `theme.spacing(2)`
+  // NOTE: (mui) it'd be nice to use `React.useTheme` and write `let paddingLeft = theme.spacing(2)`
   let paddingLeft = 16
 
   @react.component
   let make = (~item, ~level) => {
-    // NOTE: it'd be nice to write `useState(false)`
+    // NOTE: (react) it'd be nice to write `useState(false)`
     let (isOpen, setOpen) = useState(() => false)
     let {isItemOpen, selectedItemId} = useContext(context)
-    // NOTE: it'd be nice to accept numerical values
-    let style = ReactDOM.Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
 
     useEffect1(() => {
       setOpen(_ => isItemOpen(item))
@@ -51,14 +51,16 @@ module rec TreeItem: {
     }, [item.id, selectedItemId->Option.getWithDefault("")])
 
     <>
-      // NOTE: it's be nice to simply write `button` (omit `true`)
       <ListItem
+        selected={Some(item.id) == selectedItemId}
+        // NOTE: (react) it's be nice to simply write `button` (omit `true`)
         button=true
-        style=style
+        // NOTE: (react) it'd be nice to accept numerical values
+        style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
         onClick={_ => setOpen(value => !value)}>
         {item.name->string}
       </ListItem>
-      // NOTE: it'd be nice to shorcut this expression (something like {cond && <Component />})
+      // NOTE: (react?) it'd be nice to shorcut this expression (something like {cond && <Comp />})
       {item.items->Array.length > 0
         ? <Collapse _in=isOpen> <TreeList items=item.items level={level + 1} /> </Collapse>
         : null}
