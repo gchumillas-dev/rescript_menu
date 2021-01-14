@@ -65,6 +65,16 @@ module rec TreeItem: {
         onClick={_ => setOpen(value => !value)}>
         <Mui.ListItemIcon>icon</Mui.ListItemIcon>
         <Mui.ListItemText>{item.name->React.string}</Mui.ListItemText>
+        {hasChildren
+          ? (
+            <Mui.ListItemSecondaryAction>
+              // NOTE: (mui) `Mui.IconButton.Edge._end` ? sure ??
+              <Mui.IconButton edge=Mui.IconButton.Edge._end onClick={_ => setOpen(value => !value)}>
+                {isOpen ? <CollapseIcon /> : <ExpandIcon />}
+              </Mui.IconButton>
+            </Mui.ListItemSecondaryAction>
+          )
+          : React.null}
       </Mui.ListItem>
       // NOTE: (react?) it'd be nice to shorcut this expression (something like {cond && <Comp />})
       {hasChildren
@@ -81,7 +91,9 @@ and TreeList: {
 
   @react.component
   let make = (~items, ~level) => {
-    <Mui.List> {items->Array.map(item => <TreeItem key=item.id item level=level />)->React.array} </Mui.List>
+    <Mui.List>
+      {items->Array.map(item => <TreeItem key=item.id item level=level />)->React.array}
+    </Mui.List>
   }
 }
 
