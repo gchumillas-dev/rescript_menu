@@ -29,6 +29,11 @@ module ContextProvider = {
   }
 }
 
+module FolderIcon = {
+  @react.component @bs.module("@material-ui/icons/Folder")
+  external make: (~color: string=?, ~className: string=?, ~fontSize: string=?,) => React.element = "default"
+}
+
 module OpenFolderIcon = {
   @react.component
   let make = () => {
@@ -43,10 +48,18 @@ module OpenFolderIcon = {
   }
 }
 
-module FolderIcon = {
-  // More info: https://jsiebern.github.io/bs-material-ui/docs/project-structure/icons
-  @react.component @bs.module("@material-ui/icons/Folder")
-  external make: (~color: string=?, ~className: string=?, ~fontSize: string=?,) => React.element = "default"
+module FileIcon = {
+  @react.component
+  let make = () => {
+    open ReactDOM
+
+    <svg style=Style.make(~width="24px", ~height="24px", ()) viewBox="0 0 24 24">
+      <path
+        fill="currentColor"
+        d="M13,9V3.5L18.5,9M6,2C4.89,2 4,2.89 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2H6Z"
+      />
+    </svg>
+  }
 }
 
 module rec TreeItem: {
@@ -64,6 +77,11 @@ module rec TreeItem: {
     // NOTE: (react) it'd be nice to write `useState(false)`
     let (isOpen, setOpen) = useState(() => false)
     let {isItemOpen, selectedItemId} = useContext(context)
+    // TODO: replace length by empty?
+    let icon = switch item.items->Belt.Array.length {
+    | len when len > 0 => isOpen ? <OpenFolderIcon /> : <FolderIcon />
+    | _ => <FileIcon />
+    }
 
     useEffect1(() => {
       setOpen(_ => isItemOpen(item))
@@ -78,9 +96,7 @@ module rec TreeItem: {
         // NOTE: (react) it'd be nice to accept numerical values
         style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
         onClick={_ => setOpen(value => !value)}>
-        <ListItemIcon>
-          {isOpen ? <OpenFolderIcon /> : <FolderIcon />}
-        </ListItemIcon>
+        <ListItemIcon>icon</ListItemIcon>
         {item.name->string}
       </ListItem>
       // NOTE: (react?) it'd be nice to shorcut this expression (something like {cond && <Comp />})
