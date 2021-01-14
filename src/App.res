@@ -1,4 +1,4 @@
-open MaterialUi
+module Mui = MaterialUi
 
 %%raw(`import './App.css';`)
 
@@ -38,11 +38,11 @@ let make = () => {
   let onSelectItem = (item: Tree.item) => setSelectedItemId(_ => item.id)
 
   <>
-    <CssBaseline />
-    <Container maxWidth=Container.MaxWidth.sm>
-      <Paper>
+    <Mui.CssBaseline />
+    <Mui.Container maxWidth=Mui.Container.MaxWidth.sm>
+      <Mui.Paper>
         <Tree items={items} selectedItemId=selectedItemId onSelectItem=onSelectItem />
-      </Paper>
-    </Container>
+      </Mui.Paper>
+    </Mui.Container>
   </>
 }
