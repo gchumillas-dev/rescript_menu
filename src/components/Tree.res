@@ -1,6 +1,6 @@
 open React
-// TODO: how can I rename a library? For example `MaterialUi` to `Mui`
-open MaterialUi
+
+module Mui = MaterialUi
 
 type rec item = {
   id: string,
@@ -89,19 +89,19 @@ module rec TreeItem: {
     }, [item.id, selectedItemId->Option.getWithDefault("")])
 
     <>
-      <ListItem
+      <Mui.ListItem
         selected={Some(item.id) == selectedItemId}
         // NOTE: (react) it's be nice to simply write `button` (omit `true`)
         button=true
         // NOTE: (react) it'd be nice to accept numerical values
         style=Style.make(~paddingLeft=`${(paddingLeft * level)->Int.toString}px`, ())
         onClick={_ => setOpen(value => !value)}>
-        <ListItemIcon>icon</ListItemIcon>
+        <Mui.ListItemIcon>icon</Mui.ListItemIcon>
         {item.name->string}
-      </ListItem>
+      </Mui.ListItem>
       // NOTE: (react?) it'd be nice to shorcut this expression (something like {cond && <Comp />})
       {item.items->Array.length > 0
-        ? <Collapse _in=isOpen> <TreeList items=item.items level={level + 1} /> </Collapse>
+        ? <Mui.Collapse _in=isOpen> <TreeList items=item.items level={level + 1} /> </Mui.Collapse>
         : null}
     </>
   }
@@ -114,7 +114,7 @@ and TreeList: {
 
   @react.component
   let make = (~items, ~level) => {
-    <List> {items->map(item => <TreeItem key=item.id item level=level />)->array} </List>
+    <Mui.List> {items->map(item => <TreeItem key=item.id item level=level />)->array} </Mui.List>
   }
 }
 
