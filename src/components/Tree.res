@@ -12,7 +12,7 @@ type contextType = {
   onSelectItem: item => unit,
 }
 
-let context: React.Context.t<contextType> = React.createContext({
+let context = React.createContext({
   selectedItemId: None,
   isItemOpen: _ => false,
   onSelectItem: _ => (),
